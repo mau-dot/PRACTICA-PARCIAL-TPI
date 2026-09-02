@@ -1,0 +1,11 @@
+services:
+  apache:
+    build: ./apache
+    image: PG23022-imagen
+    container_name: PG23022-contenedor
+    restart: always
+    volumes:
+      - ./ejercicios:/var/www/html
+    ports:
+      - "8089:80"
+    
