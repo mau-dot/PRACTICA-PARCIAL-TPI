@@ -1,14 +1,11 @@
 <?php
-// Iniciar sesión para mantener los registros acumulados entre cada envío
+
 session_start();
 
-// ==========================================
-// CONSTANTES Y ARREGLOS
-// ==========================================
-define('CARGO_ADMINISTRATIVO', 5.00); // Constant para el cargo fijo
-define('PORCENTAJE_DESCUENTO', 0.10); // 10% para principiantes
+define('CARGO_ADMINISTRATIVO', 5.00); 
+define('PORCENTAJE_DESCUENTO', 0.10); 
 
-// Arreglo asociativo y multidimensional de videojuegos disponibles
+
 $videojuegos = [
     'lol' => [
         'nombre' => 'League of Legends',
@@ -36,26 +33,20 @@ $videojuegos = [
     ]
 ];
 
-// Inicializar la lista de participantes en sesión si no existe
+
 if (!isset($_SESSION['participantes'])) {
     $_SESSION['participantes'] = [];
 }
 
-// Variables para manejo de errores y comprobante
+
 $errores = [];
 $comprobante = null;
 
-// ==========================================
-// FUNCIONES PROPIAS
-// ==========================================
 
-/**
- * Función para calcular el desglose financiero
- */
 function calcularCostoInscripcion(float $costoBase, string $nivelExperiencia): array {
     $descuento = 0.0;
     
-    // Los estudiantes/participantes principiantes reciben un 10% de descuento
+
     if (strtolower($nivelExperiencia) === 'principiante') {
         $descuento = $costoBase * PORCENTAJE_DESCUENTO;
     }
@@ -71,11 +62,9 @@ function calcularCostoInscripcion(float $costoBase, string $nivelExperiencia): a
     ];
 }
 
-/**
- * Determina la categoría del participante usando match / switch
- */
+
 function obtenerCategoriaParticipante(int $edad, string $nivel): string {
-    // Uso de expresión match (PHP 8+) o lógica condicional
+    
     $rangoEdad = match (true) {
         $edad < 18 => 'Junior',
         $edad >= 18 && $edad <= 25 => 'Universitario Senior',
@@ -85,9 +74,7 @@ function obtenerCategoriaParticipante(int $edad, string $nivel): string {
     return $rangoEdad . " - " . ucfirst($nivel);
 }
 
-// ==========================================
-// PROCESAMIENTO DEL FORMULARIO (POST)
-// ==========================================
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Recuperar y limpiar datos con funciones de cadena (trim, htmlspecialchars)
@@ -146,10 +133,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'total' => $costos['total']
         ];
 
-        // Guardar en la sesión para persistencia entre reenvíos
+        
         $_SESSION['participantes'][] = $nuevoRegistro;
 
-        // Datos para mostrar en el comprobante actual
+        
         $comprobante = $nuevoRegistro;
     }
 }
@@ -187,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>Inscripción oficial de participantes</p>
     <hr>
 
-    <!-- MENSAJES DE ERROR -->
+    
     <?php if (!empty($errores)): ?>
         <div class="alert-error">
             <strong>Por favor, corrija los siguientes errores:</strong>
@@ -199,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
-    <!-- COMPROBANTE DE INSCRIPCIÓN -->
+    
     <?php if ($comprobante): ?>
         <div class="comprobante">
             <h2>Comprobante de Inscripción</h2>
@@ -216,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
-    <!-- FORMULARIO DE INSCRIPCIÓN -->
+    
     <h2>Formulario de Registro</h2>
     <form action="" method="POST">
         <div class="form-group">
@@ -285,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </tr>
             </thead>
             <tbody>
-                <!-- Uso de estructura repetitiva foreach para recorrer la sesión -->
+                
                 <?php foreach ($_SESSION['participantes'] as $indice => $p): ?>
                     <tr>
                         <td><?= $indice + 1 ?></td>
