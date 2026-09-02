@@ -1,8 +1,8 @@
 services:
   apache:
     build: ./apache
-    image: PG23022-imagen
-    container_name: PG23022-contenedor
+    image: pg23022-imagen
+    container_name: pg23022-contenedor
     restart: always
     volumes:
       - ./ejercicios:/var/www/html
