@@ -1,0 +1,10 @@
+FROM debian:12
+
+RUN apt update && apt intall apache2 php libapache2-mon-php php-pgsql nano curl -y
+RUN a2enmod rewrite headers expires
+
+WORKDIR /var/www/html
+
+EXPOSE 80
+
+CMD [ "apache2ctl", "-D", "FOREGROUND" ]
