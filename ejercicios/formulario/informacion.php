@@ -1,6 +1,18 @@
 <?php
 session_start();
-$_SESSION["usuarios"]
+//inicializacion de varable global de sesion de usuario
+$_SESSION["clases"] ??= [];
+//verificacion de metodo de envio
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    //validacion de campos vacios
+    if(!empty($_POST["nombre"]) && !empty($_POST["edad"])){
+        //guardamos en la Global array de 
+        $_SESSION["clases"][] = [
+            $_POST["clase"]=>["nombre" =>$_POST["nombre"], "edad" => $_POST["edad"]]
+        ];
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,11 +25,15 @@ $_SESSION["usuarios"]
     
     <h1>DATOS DEL USUARIO</h1>
     <ul>
-        <?php foreach($_SESSION["usuarios"] as $usuario){ ?>
+        <?php foreach($_SESSION["clases"] as $clase){ 
+                foreach($clase as $key => $value){
+            ?>      
             <p>
-                <?= $usuario["nombre"] ?> - <?= $usuario["edad"] ?>
+                <?= $key?> : <?= $value["nombre"] ?> - <?= $value["edad"] ?>
             </p>
-        <?php } ?>
+        <?php } 
+        }        
+        ?>
     </ul>
     
 </body>
